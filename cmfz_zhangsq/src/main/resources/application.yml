@@ -1,0 +1,28 @@
+server:
+  port: 8888   #指定端口号
+  servlet:
+    context-path: /cmfz
+    jsp:
+      init-parameters:
+        development: true
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver      #Mysql的驱动
+    url: jdbc:mysql://localhost:3306/cmfz_test?serverTimezone=UTC
+    username: root
+    password: zsq
+    type: com.alibaba.druid.pool.DruidDataSource
+  mvc:
+    view:
+      prefix: /                     #视图解析器
+      suffix: .jsp
+  servlet:
+    multipart:
+      max-file-size: 500MB   #单个文件上传大小
+      max-request-size: 1000MB   #多个文件上传大小
+  redis:
+    host: 139.129.116.121
+    port: 7000
+mybatis:
+  type-aliases-package: com.baizhi.zsq.entity   #包中的类起别名
+  mapper-locations: classpath:com/baizhi/zsq/mapper/*Mapper.xml  #Mapper文件注册

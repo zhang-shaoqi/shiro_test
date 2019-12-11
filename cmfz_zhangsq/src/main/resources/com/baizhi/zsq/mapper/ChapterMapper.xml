@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.zsq.dao.ChapterDAO">
+
+
+    <!--获取音频的总条数-->
+    <select id="countChapter" resultType="Integer">
+        select count(*) from cmfz_chapter where album_id=#{id}
+    </select>
+
+    <!--根据页数查询音频-->
+    <select id="selectChapter" resultType="Chapter">
+        select id,title,src,duration,size,upload_time uploadTime,album_id albumId from cmfz_chapter where album_id=#{id} limit #{start},#{rows}
+    </select>
+
+    <!--添加音频-->
+    <insert id="insertChapter">
+        insert into cmfz_chapter (id,title,src,duration,size,upload_time,album_id)
+                values (#{id},#{title},#{src},#{duration},#{size},#{uploadTime},#{albumId})
+    </insert>
+    
+    <!--修改音频-->
+    <update id="updateChapter">
+        update cmfz_chapter
+        <set>
+            <if test="title!=null">
+                title=#{title},
+            </if>
+            <if test="src!=null and src!=''">
+                src=#{src},
+            </if>
+            <if test="duration!=null">
+                duration=#{duration},
+            </if>
+            <if test="size!=null">
+                size=#{size},
+            </if>
+            <if test="uploadTime!=null">
+                upload_time=#{uploadTime},
+            </if>
+            <if test="albumId!=null">
+                album_id=#{albumId}
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!--删除音频-->
+    <delete id="deleteChapter">
+        delete from cmfz_chapter where id=#{id}
+    </delete>
+
+
+
+
+</mapper>

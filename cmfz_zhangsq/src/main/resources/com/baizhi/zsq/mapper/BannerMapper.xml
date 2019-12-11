@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.zsq.dao.BannerDAO">
+
+    <!--轮播图所有参数-->
+    <sql id="BannerArgsAll">
+        id,src_img,description,status,upload_time
+    </sql>
+
+    <!--获取轮播图的总数-->
+    <select id="countBanner" resultType="Integer">
+        select count(*) from cmfz_banner
+    </select>
+
+    <!--添加轮播图-->
+    <insert id="insertBanner">
+        insert into cmfz_banner (<include refid="BannerArgsAll"/> ) values (#{id},#{srcImg},#{description},#{status},#{uploadTime})
+    </insert>
+
+    <!--查询所有轮播图-->
+    <select id="selectBannerByPage" resultType="Banner">
+        select id,src_img srcImg,description,status,upload_time uploadTime from cmfz_banner limit #{page},#{rows}
+    </select>
+
+    <!--根据id修改状态-->
+    <update id="updateStatus">
+        update cmfz_banner set
+        <if test="status=='yes'">
+            status="no"
+        </if>
+        <if test="status!='yes'">
+            status="yes"
+        </if>
+        where id=#{id}
+    </update>
+
+    <!--修改轮播图信息-->
+    <update id="updateBanner">
+        update cmfz_banner
+        <set>
+            <if test="srcImg!=null and srcImg!=''">
+                src_img=#{srcImg},
+            </if>
+            <if test="description!=null">
+                description=#{description},
+            </if>
+            <if test="status!=null">
+                status=#{status},
+            </if>
+        </set>
+        where id=#{id}
+    </update>
+
+    <!--删除轮播图方法-->
+    <delete id="delectBanner">
+        delete from cmfz_banner where id=#{id}
+    </delete>
+
+    <!--根据状态查询轮播图-->
+    <select id="selectBannerByStatus" resultType="Banner">
+        select id,src_img srcImg,description,status,upload_time uploadTime from cmfz_banner where status=#{status}
+    </select>
+
+
+</mapper>

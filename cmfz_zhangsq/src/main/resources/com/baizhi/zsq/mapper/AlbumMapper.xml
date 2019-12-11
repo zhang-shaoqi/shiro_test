@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.baizhi.zsq.dao.AlbumDAO">
+
+    <!--获取专辑的总条数-->
+    <select id="countAlbum" resultType="Integer">
+        select count(*) from cmfz_album
+    </select>
+
+    <!--根据页数查询专辑-->
+    <select id="selectAlbumByPage" resultType="Album">
+        select id,title,cover_img coverImg,score,author,broadcast,count,countent,pub_date pubDate from cmfz_album limit #{start},#{rows}
+    </select>
+
+    <!--添加专辑-->
+    <insert id="insertAlbum">
+        insert into cmfz_album (id,title,cover_img,score,author,broadcast,count,countent,pub_date)
+                        values (#{id},#{title},#{coverImg},#{score},#{author},#{broadcast},#{count},#{countent},#{pubDate})
+    </insert>
+
+    <!--修改专辑-->
+    <update id="updateAlbum">
+      update cmfz_album
+      <set>
+          <if test="title!=null">
+              title=#{title},
+          </if>
+          <if test="coverImg!=null and coverImg!=''">
+              cover_img=#{coverImg},
+          </if>
+          <if test="score!=null">
+              score=#{score},
+          </if>
+          <if test="author!=null">
+              author=#{author},
+          </if>
+          <if test="broadcast!=null">
+              broadcast=#{broadcast},
+          </if>
+          <if test="count!=null">
+              count=#{count},
+          </if>
+          <if test="countent!=null">
+              countent=#{countent},
+          </if>
+          <if test="pubDate!=null">
+              pub_date=#{pubDate}
+          </if>
+      </set>
+      where id=#{id}
+    </update>
+
+    <!--删除轮播图-->
+    <delete id="deleteAlbum">
+        delete from cmfz_album where id=#{id}
+    </delete>
+
+    <!--根据时间获取最新上传的专辑数据-->
+    <select id="selectAlbumByPubDate" resultType="Album">
+        select id,title,cover_img coverImg,score,author,broadcast,count,countent,pub_date pubDate from cmfz_album Order By pub_date Desc
+            <if test="number!=null">
+                limit 0,#{number}
+            </if>
+
+    </select>
+
+
+</mapper>
